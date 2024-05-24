@@ -1,57 +1,76 @@
-import React, { useEffect } from "react";
-// 1. import `NativeBaseProvider` component
-import { Avatar, HStack, Center, NativeBaseProvider, Box, AddIcon, StatusBar, Text, Divider, FlatList, View, Switch, IconButton } from "native-base";
-import { LogBox } from "react-native";
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Feather, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { View,Text } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import Home from './Home';
+import AddAlarme from './AddAlarme';
+// import ProfileScreen from './ProfileScreen';
 
-export default function App() {
-  // 2. Use at the root of your app
-  useEffect(() => {
-    LogBox.ignoreLogs(['In React 18, SSRProvider is not necessary and is a noop. You can remove it from your app.']);
-  }, []);
+const Tab = createBottomTabNavigator();
 
-  const generateHours = () => {
-    const hours = [];
-    for (let i = 0; i < 24; i++) {
-      const hour = i < 10 ? `0${i}:00` : `${i}:00`;
-      hours.push({ key: hour });
-    }
-    return hours;
-  };
-
-  const hours = generateHours();
-
+function App() {
+  
   return (
-    <NativeBaseProvider>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="#000000"
-        translucent={false}
-      />
+    <>
+    <NavigationContainer>
+      <Tab.Navigator screenOptions={
+        {
+          headerShown: false,
+          tabBarStyle: [
+            {
+              display: "flex",
+              backgroundColor: "#121212",
+              borderTopColor: "transparent",
+              height:65,
+              paddingBottom: 5,
+              paddingTop: 5
+            },
+            null
+          ],
+          tabBarActiveTintColor: "#fff",
+          tabBarInactiveBackgroundColor: "#ff000"
+        }
 
-      <Box flex={1} bg="#fff" flexDirection="column" padding="2.5">
-
-
-        <HStack mx={{
-          base: "auto",
-          md: "0"
-        }} space={2}>
-          <HStack flex={1} justifyContent="space-between" alignItems="center" flexDirection="row" width="100%" marginTop="2" marginBottom="5">
-            <IconButton icon={<AddIcon />} borderRadius="full" bg="warning.300" size="lg"/>
-            <Text fontSize="2xl">Alarme</Text>
-          </HStack>
-
-
-
-
-        </HStack>
-
-        <FlatList
-          data={hours}
-          renderItem={({ item }) => <Box width="100%" bg="#ccc" mb="1" borderRadius="1xl" padding="3" flexDirection="row" justifyContent="space-between"><Text fontSize="5xl">{item.key}</Text><Switch fontSize="5xl" size="lg" /></Box>}
-          keyExtractor={item => item.key}
-        />
-
-      </Box>
-    </NativeBaseProvider>
+      }>
+        <Tab.Screen name="Inicio" component={Home} options={{
+          tabBarLabel: "", tabBarIcon: ({ color, size }) => (
+            <View>
+              {/* <Feather name="home" size={size} color={color} /> */}
+            </View>),
+        }} />
+        <Tab.Screen name="Editar" component={Home} options={{
+          tabBarLabel: "", tabBarIcon: ({ color, size }) => (
+            <View>
+              {/* <Feather name="tool" size={size} color={color} /> */}
+              <Feather name="home" size={size} color={color} />
+            </View>),
+        }} />
+        <Tab.Screen name=" " component={AddAlarme} options={{
+          tabBarLabel: "", tabBarIcon: ({ color, size }) => (
+            <View style={{ alignItems: "center", justifyContent: "center", width: 70, height: 70, borderRadius: 50, backgroundColor: "#ffcc00", marginTop: -20 }}>
+              <MaterialCommunityIcons name="bell-plus-outline" size={40} color="black" />
+            </View>
+          ),
+        }} />
+        <Tab.Screen name="Configuração" component={Home} options={{
+          tabBarLabel: "", tabBarIcon: ({ color, size }) => (
+            <View>
+              <Octicons name="gear" size={size} color={color} />
+            </View>),
+        }} />
+        <Tab.Screen name="+" component={Home} options={{
+          tabBarLabel: "", tabBarIcon: ({ color, size }) => (
+            <View>
+               {/* <MaterialCommunityIcons name="face-man-profile" size={35} color={color} /> */}
+            </View>
+          ),
+        }} />
+      </Tab.Navigator>
+    </NavigationContainer>
+    </>
   );
 }
+
+export default App;
