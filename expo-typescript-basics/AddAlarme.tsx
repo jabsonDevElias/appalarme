@@ -11,7 +11,7 @@ export default function AddAlarme(dateTimeStr: any) {
   function formata_hora(dateStr: any) {
     const dateObj = new Date(dateStr);
 
-    const hours = String(dateObj.getUTCHours()).padStart(2, '0');
+    const hours = String(dateObj.getUTCHours() - 3).padStart(2, '0');
     const minutes = String(dateObj.getUTCMinutes()).padStart(2, '0');
     const seconds = String(dateObj.getUTCSeconds()).padStart(2, '0');
 
@@ -51,7 +51,7 @@ export default function AddAlarme(dateTimeStr: any) {
     setShowDatePicker(Platform.OS === 'ios');
 
     setDate(currentDate);
-    
+
     if(mode == "date"){
       const filtro_data = formata_data(currentDate);
       setData(filtro_data);
