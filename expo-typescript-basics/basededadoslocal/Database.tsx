@@ -11,11 +11,12 @@ export class Database {
 
   open(){
     const db = SQLite.openDatabaseSync(this.basededados);
+    return db;
   }
 
 
   fecharBase(data:string) {
-    const db = SQLite.openDatabaseSync(this.basededados);
+    const db = this.open();
     db.closeSync();
   }
 
@@ -30,7 +31,7 @@ export class Database {
     .join(', ');
     
     
-    const db = SQLite.openDatabaseSync(this.basededados);
+    const db = this.open();
     db.execSync(`
     PRAGMA journal_mode = WAL;
     CREATE TABLE IF NOT EXISTS ${table} (${colunasTexto});
@@ -47,12 +48,12 @@ export class Database {
 
     const valores = Object.values(dados);
 
-    const db = await SQLite.openDatabaseAsync(this.basededados);
+    const db = this.open();
     const insertResult = await db.runAsync(`INSERT INTO ${table}(${keys}) VALUES (${placeholders})`,valores);
   }
 
   async select(table: any, extra: string = "") {
-    const db = await SQLite.openDatabaseAsync(this.basededados);
+    const db = this.open();
     const allRows = await db.getAllAsync(`SELECT * FROM ${table} ${extra}`);
     console.log(allRows);
     return allRows;
