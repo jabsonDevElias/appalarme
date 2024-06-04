@@ -1,12 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Avatar, HStack, Center, NativeBaseProvider, Box, AddIcon, StatusBar, Text, Divider, FlatList, View, Switch, IconButton, Button, Input } from "native-base";
 import { Platform } from 'react-native';
+import { Database } from './basededadoslocal/Database';
+
 import { Feather, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-export default function AddAlarme(dateTimeStr: any) {
 
+
+export default function AddAlarme() {
+
+
+
+  // const bd = new Database();
+  // bd.fecharBase("alarme");
+  // bd.deletarBase("alarme");
+ 
+  // const colunas = {
+  //   id: 'INTEGER PRIMARY KEY NOT NULL',
+  //   nome: 'TEXT NOT NULL',
+  //   status: 'TEXT NOT NULL'
+  // };
+
+  // bd.createTable("alarmeteste2",colunas).then(item => {
+  //   console.log("Tabela Cadastrada com Sucesso!"); 
+  // }).catch(err => console.log(err));
+
+  // const dados = { 
+  //   nome: 'João',
+  //   status: 'Ativo'
+  // };
+
+  // bd.insertRow("alarmeteste2",dados).catch(err => console.log(err));
+  
+  // bd.select("alarmeteste2").then(item => {
+  //     console.log(item);
+  // });
+
+  // async function main() {
+  //   try {
+  //     await example();
+  //     console.log('Database operations completed successfully.');
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // }
+  
+  // main();
 
   function formata_hora(dateStr: any) {
     const dateObj = new Date(dateStr);
