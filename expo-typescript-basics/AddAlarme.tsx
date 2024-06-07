@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Avatar, HStack, Center, NativeBaseProvider, Box, AddIcon, StatusBar, Text, Divider, FlatList, View, Switch, IconButton, Button, Input } from "native-base";
 import { Platform } from 'react-native';
+import "./basededadoslocal/startBase";
 import { Database } from './basededadoslocal/Database';
 
 import { Feather, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -11,9 +12,7 @@ import { Feather, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function AddAlarme() {
 
-
-
-  // const bd = new Database();
+  const bd = new Database();
   // bd.fecharBase("alarme");
   // bd.deletarBase("alarme");
  
@@ -27,16 +26,17 @@ export default function AddAlarme() {
   //   console.log("Tabela Cadastrada com Sucesso!"); 
   // }).catch(err => console.log(err));
 
-  // const dados = { 
-  //   nome: 'João',
-  //   status: 'Ativo'
+  // const dados = {
+  //   data: '2024-06-04',
+  //   hora: '00:00:00',
+  //   status: 'inativo'
   // };
-
-  // bd.insertRow("alarmeteste2",dados).catch(err => console.log(err));
+ 
+  // bd.insertRow("configuraalarme",dados);
   
-  // bd.select("alarmeteste2").then(item => {
+  // bd.select("configuraalarme").then(item => {
   //     console.log(item);
-  // });
+  // }); 
 
   // async function main() {
   //   try {
@@ -108,6 +108,37 @@ export default function AddAlarme() {
     setShowDatePicker(true);
   };
 
+
+  function converterData(data:string) {
+
+    let partes = data.split('/');
+    let dia = partes[0];
+    let mes = partes[1];
+    let ano = partes[2];
+
+    let dataISO = `${ano}-${mes}-${dia}`;
+    return dataISO;
+  }
+
+  function cadastraAlarme(){
+
+    if(time != "" && data != ""){
+
+      const dados = {
+        data: converterData(data),
+        hora: time,
+        status: 'inativo'
+      };
+
+      bd.insertRow("configuraalarme",dados);
+
+
+    }else{
+      console.log("Vazio!");
+    }
+    
+  }
+
   return (
     <NativeBaseProvider>
       <Box flex={1} bg="#fff" flexDirection="column" padding="5">
@@ -158,7 +189,7 @@ export default function AddAlarme() {
           </Box>
 
           <Box flexDirection="row" justifyContent="space-between" width="100%" marginTop="10">
-            <Button backgroundColor="#ffcc00" width="80%" margin="auto">
+            <Button backgroundColor="#ffcc00" width="80%" margin="auto" onPress={cadastraAlarme}>
               <Text>Salvar</Text>
             </Button>
           </Box>

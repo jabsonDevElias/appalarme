@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 // 1. import `NativeBaseProvider` component
 import { Avatar, HStack, Center, NativeBaseProvider, Box, AddIcon, StatusBar, Text, Divider, FlatList, View, Switch, IconButton } from "native-base";
 import { LogBox } from "react-native";
+import { Database } from './basededadoslocal/Database';
 
 export default function App() {
 
-  //
-  // 2. Use at the root of your app
+  const bd = new Database();
+
   useEffect(() => {
     LogBox.ignoreLogs(['In React 18, SSRProvider is not necessary and is a noop. You can remove it from your app.']);
   }, []);
@@ -21,6 +22,14 @@ export default function App() {
   };
 
   const hours = generateHours();
+
+
+
+const alarmes:any = bd.select("configuraalarme");
+const a_alarme = Object.values(alarmes);
+const dados_alarme = a_alarme.map(item => item);
+
+
 
   return (
     <NativeBaseProvider>
@@ -47,10 +56,11 @@ export default function App() {
 
         </HStack>
 
+
         <FlatList
-          data={hours}
-          renderItem={({ item }) => <Box width="100%" bg="#ccc" mb="1"  padding="3" flexDirection="row" justifyContent="space-between"><Text fontSize="5xl">{item.key}</Text><Switch fontSize="5xl" size="lg" defaultIsChecked/></Box>}
-          keyExtractor={item => item.key}
+          data={dados_alarme}
+          renderItem={({ item }) => <Box width="100%" bg="#ccc" mb="1"  padding="3" flexDirection="row" justifyContent="space-between"><Text fontSize="5xl">{item.hora}</Text><Switch fontSize="5xl" size="lg" defaultIsChecked/></Box>}
+          keyExtractor={item => item.id}
         />
 
       </Box>
