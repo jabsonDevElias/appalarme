@@ -32,19 +32,32 @@ export class Database {
     CREATE TABLE IF NOT EXISTS ${table}(${colunasTexto});`);
   }
 
-  async insertRow(table: any = null,dados:object) {
+  async insertRow(table: any = null,dados:object,id:any=0) {
 
-    const keys = Object.keys(dados).join(', ');
+    var keys = Object.keys(dados).join((id>0)?'=?,':', ');//VERIFICA SE É UM UPDATE
     const placeholders = Object.keys(dados)
       .map(() => '?')
       .join(', ');
 
     const valores = Object.values(dados);
-
-
     const db = await SQLite.openDatabaseAsync(this.basededados);
     
-    const insertResult = await db.runAsync(`INSERT INTO ${table}(${keys}) VALUES (${placeholders})`,valores);
+
+    if(id > 0 ){
+      keys = keys+"=?";
+    }
+
+
+    var sql = `INSERT INTO ${table}(${keys}) VALUES (${placeholders})`;
+    if(id > 0){
+      sql = `UPDATE ${table} SET ${keys} WHERE id = ${id}`;
+    }
+
+    console.log(sql);
+
+    const insertResult = await db.runAsync(sql,valores);
+    // const insertResult = await db.runAsync(`INSERT INTO ${table}(${keys}) VALUES (${placeholders})`,valores);
+
     
   }
 
