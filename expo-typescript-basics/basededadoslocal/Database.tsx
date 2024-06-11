@@ -43,12 +43,17 @@ export class Database {
     const db = await SQLite.openDatabaseAsync(this.basededados);
     
 
-    if(id > 0 ){
+    // const qtd_dados = Object.keys(dados);
+    // const qtd_dados_final = qtd_dados.length;
+
+    if(id > 0){
       keys = keys+"=?";
     }
 
 
+
     var sql = `INSERT INTO ${table}(${keys}) VALUES (${placeholders})`;
+    
     if(id > 0){
       sql = `UPDATE ${table} SET ${keys} WHERE id = ${id}`;
     }
@@ -64,7 +69,6 @@ export class Database {
   select(table: any, extra: string = "") {
     const db = SQLite.openDatabaseSync(this.basededados);
     const allRows = db.getAllSync(`SELECT * FROM ${table} ${extra}`);
-    console.log(allRows);
     return allRows;
   }
 }

@@ -8,29 +8,71 @@ export default function App() {
 
   const bd = new Database();
 
+  const alarmes: any = bd.select("configuraalarme");
+  const a_alarme = Object.values(alarmes);
+  const [dadosAlarme,setDadosAlarme] = useState(a_alarme.map(item => item));
+
 
   useEffect(() => {
     LogBox.ignoreLogs(['In React 18, SSRProvider is not necessary and is a noop. You can remove it from your app.']);
   }, []);
 
+  // Função para alterar o objeto com id 4
+
+
+  function formata_data(dateStr: any) {
+
+    const dateObj = new Date(dateStr);
+
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+
+    const formattedDate = `${day}/${month}/${year}`;
+
+    return formattedDate;
+  }
 
   const toggleSwitch = (key:any) => {
-    const dados = {
-      data: "2024-06-02",
-      hora: "07:00:00",
-      status: 'ativo'
+
+    const novosValores = {
+      status: 'inativo'
     };
  
-    bd.insertRow("configuraalarme",dados,key);
-    
+    bd.insertRow("configuraalarme",novosValores,key).then(( )=> {
+      console.log("Cadastro Realizado com Sucesso!");
 
+      let dadosAlarmeAtualizados = dadosAlarme.map(alarme => {
+          if (alarme.id === key) {
+              return { ...alarme, ...novosValores };
+          }
+          return alarme;
+      });
+
+      setDadosAlarme(dadosAlarmeAtualizados);
+
+    }).catch(err => console.log(err));
+
+
+    // a_alarme.filter(e => e.id == key).map(item => {
+    //   console.log(item);
+    //   let novoObjeto = { ...item, ...dados};
+    //   setDadosAlarme([novoObjeto]);
+    // })
+
+
+
+
+
+
+
+
+    
   }
 
 
 
-  const alarmes: any = bd.select("configuraalarme");
-  const a_alarme = Object.values(alarmes);
-  const dados_alarme = a_alarme.map(item => item);
+
 
 
   return (
@@ -59,8 +101,8 @@ export default function App() {
         </HStack>
 
         <FlatList
-          data={dados_alarme}
-          renderItem={({ item }) => <Box width="100%" bg="#ccc" mb="1" padding="3" flexDirection="row" justifyContent="space-between"><Text fontSize="5xl">{item.hora.slice(0, -3)}</Text><Switch fontSize="5xl" onToggle={() => toggleSwitch(item.id)} size="lg" isChecked={(item.status == "ativo") ? true : false} /></Box>}
+          data={dadosAlarme}
+          renderItem={({ item }) => <Box width="100%" bg="#ccc" mb="1" padding="3" flexDirection="row" alignItems="center" justifyContent="space-between"><Text fontSize="5xl">{item.hora.slice(0, -3)}</Text><Text>{formata_data(item.data)}</Text><Switch fontSize="5xl" onToggle={() => toggleSwitch(item.id)} size="lg" isChecked={(item.status == "ativo") ? true : false} /></Box>}
           keyExtractor={item => item.id}
         />
 
