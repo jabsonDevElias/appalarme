@@ -67,7 +67,7 @@ export default function AddAlarme() {
 
     const year = dateObj.getFullYear();
     const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-    const day = String(dateObj.getDate()).padStart(2, '0');
+    const day = String(dateObj.getDate()+1).padStart(2, '0');
 
     const formattedDate = `${day}/${month}/${year}`;
 
@@ -127,10 +127,13 @@ export default function AddAlarme() {
       const dados = {
         data: converterData(data),
         hora: time,
-        status: 'inativo'
+        status: 'ativo'
       };
 
       bd.insertRow("configuraalarme",dados);
+
+      setData("dd/mm/aaaa");
+      setTime("hh:mmr");
 
 
     }else{

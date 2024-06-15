@@ -1,16 +1,18 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Feather, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { View,Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Home from './Home';
 import AddAlarme from './AddAlarme';
+
 // import ProfileScreen from './ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
 function App() {
+
   
   return (
     <>

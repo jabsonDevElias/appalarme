@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Avatar, HStack, Center, NativeBaseProvider, Box, AddIcon, StatusBar, Text, Divider, FlatList, View, Switch, IconButton } from "native-base";
 import { LogBox } from "react-native";
 import { Database } from './basededadoslocal/Database';
+import { useIsFocused } from "@react-navigation/native";
 
 export default function App() {
 
@@ -10,7 +11,7 @@ export default function App() {
 
   const alarmes: any = bd.select("configuraalarme");
   const a_alarme = Object.values(alarmes);
-  const [dadosAlarme,setDadosAlarme] = useState(a_alarme.map(item => item));
+  const [dadosAlarme,setDadosAlarme] = useState();
 
 
   useEffect(() => {
@@ -72,6 +73,14 @@ export default function App() {
 
 
 
+  const [data, setData] = useState(0);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      setDadosAlarme(a_alarme.reverse().map(item => item))
+    }
+  }, [isFocused]);
 
 
 
@@ -83,6 +92,7 @@ export default function App() {
         translucent={false}
       />
 
+{/* <Text>{data}</Text> */}
       <Box flex={1} bg="#fff" flexDirection="column" padding="2.5">
 
 
@@ -102,7 +112,7 @@ export default function App() {
 
         <FlatList
           data={dadosAlarme}
-          renderItem={({ item }) => <Box width="100%" bg="#ccc" mb="1" padding="3" flexDirection="row" alignItems="center" justifyContent="space-between"><Text fontSize="5xl">{item.hora.slice(0, -3)}</Text><Text>{formata_data(item.data)}</Text><Switch fontSize="5xl" onToggle={() => toggleSwitch(item.id)} size="lg" isChecked={(item.status == "ativo") ? true : false} /></Box>}
+          renderItem={({ item }) => <Box width="100%" bg="#ccc" mb="1" padding="3" flexDirection="row" alignItems="center" justifyContent="space-between" key={item.id}><Text fontSize="5xl">{item.hora.slice(0, -3)}</Text><Text>{formata_data(item.data)}</Text><Switch fontSize="5xl" onToggle={() => toggleSwitch(item.id)} size="lg" isChecked={(item.status == "ativo") ? true : false} /></Box>}
           keyExtractor={item => item.id}
         />
 
