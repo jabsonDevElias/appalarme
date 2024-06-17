@@ -29,7 +29,7 @@ Em Desenvolvimento
    </div>
 
    <div style="width:40%;">
-     <img src="galeria/telaalarme.jpg" style="border-radius:5px"/>
+     <img src="galeria/cadastrodealarme.jpg" style="border-radius:5px"/>
    </div>  
 </div>
 
