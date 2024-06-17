@@ -24,12 +24,12 @@ Em Desenvolvimento
 ### `Galeria de Captura de Telas`
 
 <div style="width:100%;display:flex;flex-wrap:wrap">
-   <div style="width:100%;">
+   <div style="width:40%;">
      <img src="galeria/telaalarme.jpg" style="border-radius:5px"/>
    </div>
 
    <div style="width:40%;">
-     <img src="galeria/telaalarme.png" style="border-radius:5px"/>
+     <img src="galeria/telaalarme.jpg" style="border-radius:5px"/>
    </div>  
 </div>
 
